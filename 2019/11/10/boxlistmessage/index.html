@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="欢迎来到,逗豆的博客。">
 <meta property="og:description" content="面试资料">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-10T12:48:50.601Z">
+<meta property="og:updated_time" content="2019-11-11T07:15:12.805Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -342,6 +342,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
 
           
 
@@ -365,18 +370,18 @@
 
       
         <p>Java框架面试题</p>
-<h5 id="框架基础"><a href="#框架基础" class="headerlink" title="框架基础"></a>框架基础</h5><h4 id="java的servlit的生命周期"><a href="#java的servlit的生命周期" class="headerlink" title="java的servlit的生命周期"></a>java的servlit的生命周期</h4><pre><code>1.加载和实例化
+<h1 id="框架基础"><a href="#框架基础" class="headerlink" title="框架基础"></a>框架基础</h1><h2 id="java的servlit的生命周期"><a href="#java的servlit的生命周期" class="headerlink" title="java的servlit的生命周期"></a>java的servlit的生命周期</h2><pre><code>1.加载和实例化
   2.初始化
   3.请求处理
-  4.服务终止</code></pre><h5 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h5><h4 id="spring框架中常用的注解"><a href="#spring框架中常用的注解" class="headerlink" title="spring框架中常用的注解"></a>spring框架中常用的注解</h4><h4 id="Spring系列之依赖注入的三种方式"><a href="#Spring系列之依赖注入的三种方式" class="headerlink" title="Spring系列之依赖注入的三种方式"></a>Spring系列之依赖注入的三种方式</h4><pre><code>1.使用属性的setXXX方法注入</code></pre><p>　　2.构造函数注入<br>    3. 基于注解的注入<br>        @Autowired注解是byType类型的-根据类型注入<br>        @Qualifier注解使用byName进行装配-根据名字进行注入</p>
-<h4 id="Spring框架中bean的生命周期"><a href="#Spring框架中bean的生命周期" class="headerlink" title="Spring框架中bean的生命周期"></a>Spring框架中bean的生命周期</h4><pre><code>1、Spring Ioc容器找到关于Bean的定义并实例化Bean
+  4.服务终止</code></pre><h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><h2 id="spring框架中常用的注解"><a href="#spring框架中常用的注解" class="headerlink" title="spring框架中常用的注解"></a>spring框架中常用的注解</h2><h2 id="Spring系列之依赖注入的三种方式"><a href="#Spring系列之依赖注入的三种方式" class="headerlink" title="Spring系列之依赖注入的三种方式"></a>Spring系列之依赖注入的三种方式</h2><pre><code>1.使用属性的setXXX方法注入</code></pre><p>　　2.构造函数注入<br>    3. 基于注解的注入<br>        @Autowired注解是byType类型的-根据类型注入<br>        @Qualifier注解使用byName进行装配-根据名字进行注入</p>
+<h2 id="Spring框架中bean的生命周期"><a href="#Spring框架中bean的生命周期" class="headerlink" title="Spring框架中bean的生命周期"></a>Spring框架中bean的生命周期</h2><pre><code>1、Spring Ioc容器找到关于Bean的定义并实例化Bean
 2、Spring Ioc容器对Bean进行依赖注入
 3、如果Bean实现了BeanNameAware接口，则将该Bean的id传给setBeanName方法
 4、如果Bean实现了BeanFactoryAware接口，则将BeanFactroy对象传给setBeanFactory方法
 5、如果Bean实现了BeanPostProcessor接口，则调用其postProcessBeforeInitialization方法
 6、如果Bean实现了InitializingBean接口，则调用其afterPropertySet方法
 7、如果有和Bean关联的BeanPostProcessors对象，则这些对象的postProcessAfterInitialization方法被调用
-8、如果销毁Bean实例时如果bean实现了DisposableBean接口，则调用其destroy方法</code></pre><h4 id="Spring中Bean的作用域"><a href="#Spring中Bean的作用域" class="headerlink" title="Spring中Bean的作用域"></a>Spring中Bean的作用域</h4><pre><code>五种作用域中，request、session和global session三种作用域仅在基于web的应用中使用（不必关心你所采用的是什么web应用框架），只能用在基于web的Spring ApplicationContext环境
+8、如果销毁Bean实例时如果bean实现了DisposableBean接口，则调用其destroy方法</code></pre><h2 id="Spring中Bean的作用域"><a href="#Spring中Bean的作用域" class="headerlink" title="Spring中Bean的作用域"></a>Spring中Bean的作用域</h2><pre><code>五种作用域中，request、session和global session三种作用域仅在基于web的应用中使用（不必关心你所采用的是什么web应用框架），只能用在基于web的Spring ApplicationContext环境
 
 (1)当一个bean的作用域为Singleton，那么Spring IoC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例。Singleton是单例类型，就是在创建起容器时就同时自动创建了一个bean的对象，不管你是否使用，他都存在了，每次获取到的对象都是同一个对象。注意，Singleton作用域是Spring中的缺省作用域。要在XML中将bean定义成singleton，可以这样配置：
 
@@ -386,8 +391,8 @@
 
 &lt;bean id=&quot;account&quot; class=&quot;com.foo.DefaultAccount&quot; scope=&quot;prototype&quot;/&gt;  
  或者
-&lt;bean id=&quot;account&quot; class=&quot;com.foo.DefaultAccount&quot; singleton=&quot;false&quot;/&gt; </code></pre><h4 id="Spring框架中使用的设计模式"><a href="#Spring框架中使用的设计模式" class="headerlink" title="Spring框架中使用的设计模式"></a>Spring框架中使用的设计模式</h4><pre><code>1. 工厂模式2、模版模式. 3、单例模式4、代理模式5、策略模式6、观察者模式
-4、代理模式：在Spring的Aop中，使用的Advice（通知）来增强被代理类的功能。Spring实现这一AOP功能的原理就使用代理模式（1、JDK动态代理。2、CGLib字节码生成技术代理。）对类进行方法级别的切面增强，即，生成被代理类的代理类， 并在代理类的方法前，设置拦截器，通过执行拦截器重的内容增强了代理方法的功能，实现的面向切面编程。</code></pre><h4 id="使用Spring框架有那些好处"><a href="#使用Spring框架有那些好处" class="headerlink" title="使用Spring框架有那些好处"></a>使用Spring框架有那些好处</h4><pre><code>1.      轻量级框架 
+&lt;bean id=&quot;account&quot; class=&quot;com.foo.DefaultAccount&quot; singleton=&quot;false&quot;/&gt; </code></pre><h2 id="Spring框架中使用的设计模式"><a href="#Spring框架中使用的设计模式" class="headerlink" title="Spring框架中使用的设计模式"></a>Spring框架中使用的设计模式</h2><pre><code>1. 工厂模式2、模版模式. 3、单例模式4、代理模式5、策略模式6、观察者模式
+4、代理模式：在Spring的Aop中，使用的Advice（通知）来增强被代理类的功能。Spring实现这一AOP功能的原理就使用代理模式（1、JDK动态代理。2、CGLib字节码生成技术代理。）对类进行方法级别的切面增强，即，生成被代理类的代理类， 并在代理类的方法前，设置拦截器，通过执行拦截器重的内容增强了代理方法的功能，实现的面向切面编程。</code></pre><h2 id="使用Spring框架有那些好处"><a href="#使用Spring框架有那些好处" class="headerlink" title="使用Spring框架有那些好处"></a>使用Spring框架有那些好处</h2><pre><code>1.      轻量级框架 
 Spring是轻量级框架,基本的版本大约2M
 
 2.      控制反转   
@@ -409,15 +414,15 @@ Spring的WEB框架是个精心设计的框架,是WEB框架的一个很好的替�
 Spring 提供一个持续的事务管理接口,可以扩展到上至本地事务下至全局事务(JTA)
 
 7.      异常处理 
-Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate or JDO 抛出的) 转化为一致的 unchecked异常</code></pre><h4 id="Spring框架中的单例Beans是线程安全的么"><a href="#Spring框架中的单例Beans是线程安全的么" class="headerlink" title="Spring框架中的单例Beans是线程安全的么"></a>Spring框架中的单例Beans是线程安全的么</h4><pre><code>Spring框架并没有对单例bean进行任何多线程的封装处理。关于单例bean的线程安全和并发问题需要开发者自行去搞定。但实际上，大部分的Spring bean并没有可变的状态(比如Serview类和DAO类)，所以在某种程度上说Spring的单例bean是线程安全的。如果你的bean有多种状态的话（比如 View Model 对象），就需要自行保证线程安全。
+Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate or JDO 抛出的) 转化为一致的 unchecked异常</code></pre><h2 id="Spring框架中的单例Beans是线程安全的么"><a href="#Spring框架中的单例Beans是线程安全的么" class="headerlink" title="Spring框架中的单例Beans是线程安全的么"></a>Spring框架中的单例Beans是线程安全的么</h2><pre><code>Spring框架并没有对单例bean进行任何多线程的封装处理。关于单例bean的线程安全和并发问题需要开发者自行去搞定。但实际上，大部分的Spring bean并没有可变的状态(比如Serview类和DAO类)，所以在某种程度上说Spring的单例bean是线程安全的。如果你的bean有多种状态的话（比如 View Model 对象），就需要自行保证线程安全。
 最浅显的解决办法就是将多态bean的作用域由“singleton”变更为“prototype”。
 在Spring的Bean配置中，存在这样两种情况：
 1. &lt;bean id=&quot;testManager&quot; class=&quot;com.sw.TestManagerImpl&quot; scope=&quot;singleton&quot; /&gt;  
-2. &lt;bean id=&quot;testManager&quot; class=&quot;com.sw.TestManagerImpl&quot; scope=&quot;prototype&quot; /&gt; </code></pre><h4 id="springMVC的使用和了解"><a href="#springMVC的使用和了解" class="headerlink" title="springMVC的使用和了解"></a>springMVC的使用和了解</h4><h3 id="什么是Spring-MVC-？简单介绍下你对springMVC的理解"><a href="#什么是Spring-MVC-？简单介绍下你对springMVC的理解" class="headerlink" title="什么是Spring MVC ？简单介绍下你对springMVC的理解?"></a>什么是Spring MVC ？简单介绍下你对springMVC的理解?</h3><p>Spring MVC是一个基于Java的实现了MVC设计模式的请求驱动类型的轻量级Web框架，通过把Model，View，Controller分离，将web层进行职责解耦，把复杂的web应用分成逻辑清晰的几部分，简化开发，减少出错，方便组内开发人员之间的配合。</p>
-<h3 id="SpringMVC的流程？"><a href="#SpringMVC的流程？" class="headerlink" title="SpringMVC的流程？"></a>SpringMVC的流程？</h3><p>（1）用户发送请求至前端控制器DispatcherServlet；<br>（2） DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handle；<br>（3）处理器映射器根据请求url找到具体的处理器，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet；<br>（4）DispatcherServlet 调用 HandlerAdapter处理器适配器；<br>（5）HandlerAdapter 经过适配调用 具体处理器(Handler，也叫后端控制器)；<br>（6）Handler执行完成返回ModelAndView；<br>（7）HandlerAdapter将Handler执行结果ModelAndView返回给DispatcherServlet；<br>（8）DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；<br>（9）ViewResolver解析后返回具体View；<br>（10）DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）<br>（11）DispatcherServlet响应用户。</p>
-<h3 id="Springmvc的优点"><a href="#Springmvc的优点" class="headerlink" title="Springmvc的优点:"></a>Springmvc的优点:</h3><p>（1）可以支持各种视图技术,而不仅仅局限于JSP；<br>（2）与Spring框架集成（如IoC容器、AOP等）；<br>（3）清晰的角色分配：前端控制器(dispatcherServlet) , 请求到处理器映射（handlerMapping), 处理器适配器（HandlerAdapter), 视图解析器（ViewResolver）。<br>（4） 支持各种请求资源的映射策略。</p>
-<h3 id="Spring-MVC的主要组件？"><a href="#Spring-MVC的主要组件？" class="headerlink" title="Spring MVC的主要组件？"></a>Spring MVC的主要组件？</h3><p>（1）前端控制器 DispatcherServlet（不需要程序员开发）<br>作用：接收请求、响应结果，相当于转发器，有了DispatcherServlet 就减少了其它组件之间的耦合度。<br>（2）处理器映射器HandlerMapping（不需要程序员开发）<br>作用：根据请求的URL来查找Handler<br>（3）处理器适配器HandlerAdapter<br>注意：在编写Handler的时候要按照HandlerAdapter要求的规则去编写，这样适配器HandlerAdapter才可以正确的去执行Handler。<br>（4）处理器Handler（需要程序员开发）<br>（5）视图解析器 ViewResolver（不需要程序员开发）<br>作用：进行视图的解析，根据视图逻辑名解析成真正的视图（view）<br>（6）视图View（需要程序员开发jsp）<br>View是一个接口， 它的实现类支持不同的视图类型（jsp，freemarker，pdf等等）</p>
-<h4 id="springMVC和struts2的区别有哪些"><a href="#springMVC和struts2的区别有哪些" class="headerlink" title="springMVC和struts2的区别有哪些?"></a>springMVC和struts2的区别有哪些?</h4><pre><code>（1）springmvc的入口是一个servlet即前端控制器（DispatchServlet），而struts2入口是一个filter过虑器（StrutsPrepareAndExecuteFilter）。</code></pre><p>（2）springmvc是基于方法开发(一个url对应一个方法)，请求参数传递到方法的形参，可以设计为单例或多例(建议单例)，struts2是基于类开发，传递参数是通过类的属性，只能设计为多例。</p>
+2. &lt;bean id=&quot;testManager&quot; class=&quot;com.sw.TestManagerImpl&quot; scope=&quot;prototype&quot; /&gt; </code></pre><h1 id="springMVC的使用和了解"><a href="#springMVC的使用和了解" class="headerlink" title="springMVC的使用和了解"></a>springMVC的使用和了解</h1><h2 id="什么是Spring-MVC-？简单介绍下你对springMVC的理解"><a href="#什么是Spring-MVC-？简单介绍下你对springMVC的理解" class="headerlink" title="什么是Spring MVC ？简单介绍下你对springMVC的理解?"></a>什么是Spring MVC ？简单介绍下你对springMVC的理解?</h2><p>Spring MVC是一个基于Java的实现了MVC设计模式的请求驱动类型的轻量级Web框架，通过把Model，View，Controller分离，将web层进行职责解耦，把复杂的web应用分成逻辑清晰的几部分，简化开发，减少出错，方便组内开发人员之间的配合。</p>
+<h2 id="SpringMVC的流程？"><a href="#SpringMVC的流程？" class="headerlink" title="SpringMVC的流程？"></a>SpringMVC的流程？</h2><p>（1）用户发送请求至前端控制器DispatcherServlet；<br>（2） DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handle；<br>（3）处理器映射器根据请求url找到具体的处理器，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet；<br>（4）DispatcherServlet 调用 HandlerAdapter处理器适配器；<br>（5）HandlerAdapter 经过适配调用 具体处理器(Handler，也叫后端控制器)；<br>（6）Handler执行完成返回ModelAndView；<br>（7）HandlerAdapter将Handler执行结果ModelAndView返回给DispatcherServlet；<br>（8）DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；<br>（9）ViewResolver解析后返回具体View；<br>（10）DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）<br>（11）DispatcherServlet响应用户。</p>
+<h2 id="Springmvc的优点"><a href="#Springmvc的优点" class="headerlink" title="Springmvc的优点:"></a>Springmvc的优点:</h2><p>（1）可以支持各种视图技术,而不仅仅局限于JSP；<br>（2）与Spring框架集成（如IoC容器、AOP等）；<br>（3）清晰的角色分配：前端控制器(dispatcherServlet) , 请求到处理器映射（handlerMapping), 处理器适配器（HandlerAdapter), 视图解析器（ViewResolver）。<br>（4） 支持各种请求资源的映射策略。</p>
+<h2 id="Spring-MVC的主要组件？"><a href="#Spring-MVC的主要组件？" class="headerlink" title="Spring MVC的主要组件？"></a>Spring MVC的主要组件？</h2><p>（1）前端控制器 DispatcherServlet（不需要程序员开发）<br>作用：接收请求、响应结果，相当于转发器，有了DispatcherServlet 就减少了其它组件之间的耦合度。<br>（2）处理器映射器HandlerMapping（不需要程序员开发）<br>作用：根据请求的URL来查找Handler<br>（3）处理器适配器HandlerAdapter<br>注意：在编写Handler的时候要按照HandlerAdapter要求的规则去编写，这样适配器HandlerAdapter才可以正确的去执行Handler。<br>（4）处理器Handler（需要程序员开发）<br>（5）视图解析器 ViewResolver（不需要程序员开发）<br>作用：进行视图的解析，根据视图逻辑名解析成真正的视图（view）<br>（6）视图View（需要程序员开发jsp）<br>View是一个接口， 它的实现类支持不同的视图类型（jsp，freemarker，pdf等等）</p>
+<h2 id="springMVC和struts2的区别有哪些"><a href="#springMVC和struts2的区别有哪些" class="headerlink" title="springMVC和struts2的区别有哪些?"></a>springMVC和struts2的区别有哪些?</h2><pre><code>（1）springmvc的入口是一个servlet即前端控制器（DispatchServlet），而struts2入口是一个filter过虑器（StrutsPrepareAndExecuteFilter）。</code></pre><p>（2）springmvc是基于方法开发(一个url对应一个方法)，请求参数传递到方法的形参，可以设计为单例或多例(建议单例)，struts2是基于类开发，传递参数是通过类的属性，只能设计为多例。</p>
 <p>（3）Struts采用值栈存储请求和响应的数据，通过OGNL存取数据，springmvc通过参数解析器是将request请求内容解析，并给方法形参赋值，将数据和视图封装成ModelAndView对象，最后又将ModelAndView中的模型数据通过reques域传输到页面。Jsp视图解析器默认使用jstl。</p>
 
       
@@ -453,8 +458,8 @@ Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate 
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/11/10/conllectList/" rel="next" title="conllectList">
-                <i class="fa fa-chevron-left"></i> conllectList
+              <a href="/2019/11/10/conllectList/" rel="next" title="Java集合方面知识收集">
+                <i class="fa fa-chevron-left"></i> Java集合方面知识收集
               </a>
             
           </div>
@@ -463,8 +468,8 @@ Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate 
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/11/10/shellDoMessage/" rel="prev" title="shellDoMessage">
-                shellDoMessage <i class="fa fa-chevron-right"></i>
+              <a href="/2019/11/10/shellDoMessage/" rel="prev" title="常用Linux操作命令">
+                常用Linux操作命令 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -568,7 +573,7 @@ Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate 
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -601,7 +606,7 @@ Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate 
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#框架基础"><span class="nav-number">1.</span> <span class="nav-text">框架基础</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java的servlit的生命周期"><span class="nav-number"></span> <span class="nav-text">java的servlit的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring"><span class="nav-number">1.</span> <span class="nav-text">Spring</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#spring框架中常用的注解"><span class="nav-number"></span> <span class="nav-text">spring框架中常用的注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring系列之依赖注入的三种方式"><span class="nav-number"></span> <span class="nav-text">Spring系列之依赖注入的三种方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring框架中bean的生命周期"><span class="nav-number"></span> <span class="nav-text">Spring框架中bean的生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring中Bean的作用域"><span class="nav-number"></span> <span class="nav-text">Spring中Bean的作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring框架中使用的设计模式"><span class="nav-number"></span> <span class="nav-text">Spring框架中使用的设计模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Spring框架有那些好处"><span class="nav-number"></span> <span class="nav-text">使用Spring框架有那些好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring框架中的单例Beans是线程安全的么"><span class="nav-number"></span> <span class="nav-text">Spring框架中的单例Beans是线程安全的么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#springMVC的使用和了解"><span class="nav-number"></span> <span class="nav-text">springMVC的使用和了解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Spring-MVC-？简单介绍下你对springMVC的理解"><span class="nav-number"></span> <span class="nav-text">什么是Spring MVC ？简单介绍下你对springMVC的理解?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringMVC的流程？"><span class="nav-number"></span> <span class="nav-text">SpringMVC的流程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Springmvc的优点"><span class="nav-number"></span> <span class="nav-text">Springmvc的优点:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC的主要组件？"><span class="nav-number"></span> <span class="nav-text">Spring MVC的主要组件？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#springMVC和struts2的区别有哪些"><span class="nav-number"></span> <span class="nav-text">springMVC和struts2的区别有哪些?</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#框架基础"><span class="nav-number">1.</span> <span class="nav-text">框架基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#java的servlit的生命周期"><span class="nav-number">1.1.</span> <span class="nav-text">java的servlit的生命周期</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring"><span class="nav-number">2.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#spring框架中常用的注解"><span class="nav-number">2.1.</span> <span class="nav-text">spring框架中常用的注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring系列之依赖注入的三种方式"><span class="nav-number">2.2.</span> <span class="nav-text">Spring系列之依赖注入的三种方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring框架中bean的生命周期"><span class="nav-number">2.3.</span> <span class="nav-text">Spring框架中bean的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring中Bean的作用域"><span class="nav-number">2.4.</span> <span class="nav-text">Spring中Bean的作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring框架中使用的设计模式"><span class="nav-number">2.5.</span> <span class="nav-text">Spring框架中使用的设计模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Spring框架有那些好处"><span class="nav-number">2.6.</span> <span class="nav-text">使用Spring框架有那些好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring框架中的单例Beans是线程安全的么"><span class="nav-number">2.7.</span> <span class="nav-text">Spring框架中的单例Beans是线程安全的么</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#springMVC的使用和了解"><span class="nav-number">3.</span> <span class="nav-text">springMVC的使用和了解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Spring-MVC-？简单介绍下你对springMVC的理解"><span class="nav-number">3.1.</span> <span class="nav-text">什么是Spring MVC ？简单介绍下你对springMVC的理解?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC的流程？"><span class="nav-number">3.2.</span> <span class="nav-text">SpringMVC的流程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Springmvc的优点"><span class="nav-number">3.3.</span> <span class="nav-text">Springmvc的优点:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-MVC的主要组件？"><span class="nav-number">3.4.</span> <span class="nav-text">Spring MVC的主要组件？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#springMVC和struts2的区别有哪些"><span class="nav-number">3.5.</span> <span class="nav-text">springMVC和struts2的区别有哪些?</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -621,8 +626,7 @@ Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate 
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -630,16 +634,6 @@ Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate 
 
   
 </div>
-
-<div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
-  本站访客数:<span id="busuanzi_value_site_uv"></span>
-</span>
-</div>
-
-<span id="busuanzi_container_site_uv">
-  本站总访问量<span id="busuanzi_value_site_uv"></span>次
-</span>
 
 
   <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
@@ -656,6 +650,26 @@ Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate 
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
 
 
 
