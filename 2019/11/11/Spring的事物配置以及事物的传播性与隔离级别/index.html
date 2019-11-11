@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="面试资料,Spring,Spring事物传播性与隔离级别," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Spring">
+<meta name="keywords" content="面试资料,Spring,Spring事物传播性与隔离级别">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring的事物配置以及事物的传播性与隔离级别">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;11&#x2F;Spring%E7%9A%84%E4%BA%8B%E7%89%A9%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E4%BA%8B%E7%89%A9%E7%9A%84%E4%BC%A0%E6%92%AD%E6%80%A7%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB&#x2F;index.html">
+<meta property="og:site_name" content="欢迎来到,逗豆的博客。">
+<meta property="og:description" content="Spring">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-11-11T11:43:21.949Z">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/11/Spring的事物配置以及事物的传播性与隔离级别/"/>
+
+
+
+
+
+  <title>Spring的事物配置以及事物的传播性与隔离级别 | 欢迎来到,逗豆的博客。</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">欢迎来到,逗豆的博客。</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/blog/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/commonweal/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-something">
+          <a href="/something/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            有点东西
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/11/Spring%E7%9A%84%E4%BA%8B%E7%89%A9%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E4%BA%8B%E7%89%A9%E7%9A%84%E4%BC%A0%E6%92%AD%E6%80%A7%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="逗豆">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573981259&di=38dbfe469f40a9e4ea2262e53a44ca25&imgtype=jpg&er=1&src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-1771ea61932f5f76ad35e04ff3e230bf_hd.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="欢迎来到,逗豆的博客。">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring的事物配置以及事物的传播性与隔离级别</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-11T18:59:47+08:00">
+                2019-11-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.8k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  14
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  Spring
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>转载文章：<a href="https://blog.csdn.net/v123411739/article/details/50803934" target="_blank" rel="noopener">https://blog.csdn.net/v123411739/article/details/50803934</a></p>
+<h1 id="Spring事务配置"><a href="#Spring事务配置" class="headerlink" title="Spring事务配置"></a>Spring事务配置</h1><p>##通过注解配置</p>
+<h3 id="在Spring配置文件引入tx"><a href="#在Spring配置文件引入tx" class="headerlink" title="在Spring配置文件引入tx:"></a>在Spring配置文件引入<a href="tx:">tx:</a></h3><pre><code>&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; 
+xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;
+xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;
+xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;&gt;</code></pre><h3 id="配置基于注解的声明式事务管理，如果没有使用Hibernate框架，则将class替换为成”org-springframework-jdbc-datasource-DataSourceTransactionManager”"><a href="#配置基于注解的声明式事务管理，如果没有使用Hibernate框架，则将class替换为成”org-springframework-jdbc-datasource-DataSourceTransactionManager”" class="headerlink" title="配置基于注解的声明式事务管理，如果没有使用Hibernate框架，则将class替换为成”org.springframework.jdbc.datasource.DataSourceTransactionManager”"></a>配置基于注解的声明式事务管理，如果没有使用Hibernate框架，则将class替换为成”org.springframework.jdbc.datasource.DataSourceTransactionManager”</h3><pre><code>&lt;!-- 配置SessionFactory --&gt;
+&lt;bean id=&quot;sessionFactory&quot; class=&quot;org.springframework.orm.hibernate3.LocalSessionFactoryBean&quot;&gt;
+    &lt;property name=&quot;configLocation&quot;&gt;
+        &lt;value&gt;classpath:hibernate.cfg.xml&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;!-- 配置声明式事务管理器--&gt;  
+&lt;bean id=&quot;txManager&quot; class=&quot;org.springframework.orm.hibernate3.HibernateTransactionManager&quot;&gt;  
+    &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot;&gt;&lt;/property&gt;  
+&lt;/bean&gt;  
+&lt;!-- 注解驱动--&gt;  
+&lt;tx:annotation-driven transaction-manager=&quot;txManager&quot;/&gt;</code></pre><h3 id="在要使用事务管理的类或者方法上增加代码-Transactional，Spring官方团队建议不要在接口使用。在类上使用-Transactional，类中的所有public方法都将使用事务"><a href="#在要使用事务管理的类或者方法上增加代码-Transactional，Spring官方团队建议不要在接口使用。在类上使用-Transactional，类中的所有public方法都将使用事务" class="headerlink" title="在要使用事务管理的类或者方法上增加代码@Transactional，Spring官方团队建议不要在接口使用。在类上使用@Transactional，类中的所有public方法都将使用事务"></a>在要使用事务管理的类或者方法上增加代码@Transactional，Spring官方团队建议不要在接口使用。在类上使用@Transactional，类中的所有public方法都将使用事务</h3><pre><code>@Transactional
+public class Txtest implements TestService { }</code></pre><p>在public方法上使用@Transactional，则该方法使用事务；非public方法使用@Transactional不会报错，但也不会使用事务，相当于“白做”</p>
+<pre><code>@Transactional
+public List&lt;Object&gt; getAll() {
+    return null;
+}  </code></pre><p>如果在类上使用@Transactional，但是类中的某个方法不想使用事务，则可以使用</p>
+<pre><code>@Transactional
+public class Txtest implements TestService {   
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public List&lt;Object&gt; getAll() {
+        return null;
+    }   
+}</code></pre><h2 id="使用tx标签配置的拦截器"><a href="#使用tx标签配置的拦截器" class="headerlink" title="使用tx标签配置的拦截器"></a>使用tx标签配置的拦截器</h2><h3 id="1-配置sessionFactory"><a href="#1-配置sessionFactory" class="headerlink" title="1.配置sessionFactory"></a>1.配置sessionFactory</h3><pre><code>&lt;!-- 配置SessionFactory --&gt;
+&lt;bean id=&quot;sessionFactory&quot; class=&quot;org.springframework.orm.hibernate3.LocalSessionFactoryBean&quot;&gt;
+    &lt;property name=&quot;configLocation&quot;&gt;
+        &lt;value&gt;classpath:hibernate.cfg.xml&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</code></pre><h3 id="2-配置事务管理器"><a href="#2-配置事务管理器" class="headerlink" title="2.配置事务管理器"></a>2.配置事务管理器</h3><pre><code>&lt;!-- 事务配置 --&gt;
+&lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;&gt;
+    &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot; /&gt;
+&lt;/bean&gt;</code></pre><h3 id="3-配置事务的传播性"><a href="#3-配置事务的传播性" class="headerlink" title="3.配置事务的传播性"></a>3.配置事务的传播性</h3><pre><code>&lt;!-- 使用声明方式配置事务 --&gt;
+&lt;tx:advice id=&quot;TxAdvice&quot; transaction-manager=&quot;transactionManager&quot;&gt;
+     &lt;tx:attributes&gt;
+           &lt;tx:method name=&quot;query*&quot; read-only=&quot;true&quot;/&gt;
+           &lt;tx:method name=&quot;insert*&quot; propagation=&quot;REQUIRED&quot; rollback-for=&quot;java.lang.Exception&quot;/&gt;
+           &lt;tx:method name=&quot;update*&quot; propagation=&quot;REQUIRED&quot; rollback-for=&quot;java.lang.Exception&quot;/&gt;
+           &lt;tx:method name=&quot;delete*&quot; propagation=&quot;REQUIRED&quot; rollback-for=&quot;java.lang.Exception&quot;/&gt;
+           &lt;tx:method name=&quot;*&quot; propagation=&quot;REQUIRED&quot; rollback-for=&quot;java.lang.Exception&quot;/&gt;
+    &lt;/tx:attributes&gt;
+&lt;/tx:advice&gt;</code></pre><h3 id="4-配置参与事务的类"><a href="#4-配置参与事务的类" class="headerlink" title="4.配置参与事务的类"></a>4.配置参与事务的类</h3><pre><code>&lt;aop:config&gt;
+    &lt;aop:pointcut id=&quot;allServiceMethod&quot; expression=&quot;execution(* com.chillax.*.service.*.*(..))&quot;/&gt;
+    &lt;aop:advisor pointcut-ref=&quot;allServiceMethod&quot; advice-ref=&quot;TxAdvice&quot; /&gt;
+&lt;/aop:config&gt;</code></pre><h1 id="事务的传播性"><a href="#事务的传播性" class="headerlink" title="事务的传播性"></a>事务的传播性</h1><p>1）@Transactional(propagation=Propagation.REQUIRED)：默认的spring事务传播级别，使用该级别的特点是，如果上下文中已经存在事务，那么就加入到事务中执行，如果当前上下文中不存在事务，则新建事务执行，所以这个级别通常能满足处理大多数的业务场景。</p>
+<p>2）@Transactional(propagation=PROPAGATION.SUPPORTS)：从字面意思就知道，supports(支持)，该传播级别的特点是，如果上下文存在事务，则支持当前事务，加入到事务执行，如果没有事务，则使用非事务的方式执行。所以说，并非所有的包在transactionTemplate.execute中的代码都会有事务支持。这个通常是用来处理那些并非原子性的非核心业务逻辑操作，应用场景较少。</p>
+<p>3）@Transactional(propagation=PROPAGATION.MANDATORY)：该级别的事务要求上下文中必须要存在事务，否则就会抛出异常！配置该方式的传播级别是有效的控制上下文调用代码遗漏添加事务控制的保证手段。比如一段代码不能单独被调用执行，但是一旦被调用，就必须有事务包含的情况，就可以使用这个传播级别。</p>
+<p>4）@Transactional(propagation=PROPAGATION.REQUIRES_NEW)：从字面即可知道，每次都要一个新的事务，该传播级别的特点是，每次都会新建一个事务，并且同时将上下文中的事务挂起，当新建事务执行完成以后，上下文事务再恢复执行。<br>这是一个很有用的传播级别，举一个应用场景：现在有一个发送100个红包的操作，在发送之前，要做一些系统的初始化、验证、数据记录操作，然后发送100封红包，然后再记录发送日志，发送日志要求100%的准确，如果日志不准确，那么整个父事务逻辑需要回滚。<br>怎么处理整个业务需求呢？就是通过这个PROPAGATION.REQUIRES_NEW 级别的事务传播控制就可以完成。发送红包的子事务不会直接影响到父事务的提交和回滚。</p>
+<p>5）@Transactional(propagation=PROPAGATION.NOT_SUPPORTED) ：这个也可以从字面得知，not supported(不支持)，当前级别的特点是,如果上下文中存在事务，<br>则挂起事务，执行当前逻辑，结束后恢复上下文的事务。<br>这个级别有什么好处？可以帮助你将事务极可能的缩小。我们知道一个事务越大，它存在的风险也就越多。所以在处理事务的过程中，要保证尽可能的缩小范围。比如一段代码，是每次逻辑操作都必须调用的，比如循环1000次的某个非核心业务逻辑操作。这样的代码如果包在事务中，势必造成事务太大，导致出现一些难以考虑周全的异常情况。所以这个事务这个级别的传播级别就派上用场了，用当前级别的事务模板抱起来就可以了。</p>
+<p>6）@Transactional(propagation=PROPAGATION.NEVER)：该事务更严格，上面一个事务传播级别只是不支持而已，有事务就挂起，而PROPAGATION_NEVER传播级别要求上下文中不能存在事务，一旦有事务，就抛出runtime异常，强制停止执行！</p>
+<p>7）@Transactional(propagation=PROPAGATION.NESTED)：字面也可知道，nested，嵌套级别事务。该传播级别特征是，如果上下文中存在事务，则嵌套事务执行，如果不存在事务，则新建事务。<br>那么什么是嵌套事务呢？</p>
+<p>嵌套是子事务套在父事务中执行，子事务是父事务的一部分，在进入子事务之前，父事务建立一个回滚点，叫save point，然后执行子事务，这个子事务的执行也算是父事务的一部分，然后子事务执行结束，父事务继续执行。重点就在于那个save point，看几个问题就明白了。<br>如果子事务回滚，会发生什么？ </p>
+<p>父事务会回滚到进入子事务前建立的save point，然后尝试其他的事务或者其他的业务逻辑，父事务之前的操作不会受到影响，更不会自动回滚。</p>
+<p>如果父事务回滚，会发生什么？<br>父事务回滚，子事务也会跟着回滚！为什么呢，因为父事务结束之前，子事务是不会提交的，我们说子事务是父事务的一部分，正是这个道理。</p>
+<p>那么：事务的提交，是什么情况？ 是父事务先提交，然后子事务提交，还是子事务先提交，父事务再提交？<br>答案是第二种情况，还是那句话，子事务是父事务的一部分，由父事务统一提交。</p>
+<p>以上是事务的7个传播级别，在日常应用中，通常可以满足各种业务需求，但是除了传播级别，在读取数据库的过程中，如果两个事务并发执行，那么彼此之间的数据是如何影响的呢？</p>
+<p>这就需要了解一下事务的另一个特性：事务的隔离级别。</p>
+<h1 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h1><p>1)@Transactional(isolation = Isolation.SERIALIZABLE)：最严格的级别，事务串行执行，资源消耗最大；<br>2)@Transactional(isolation = Isolation.REPEATABLE_READ)：保证了一个事务不会修改已经由另一个事务读取但未提交（回滚）的数据。避免了“脏读取”和“不可重复读取”的情况，但是带来了更多的性能损失。<br>3)@Transactional(isolation = Isolation.READ_COMMITTED)：大多数主流数据库的默认事务等级，保证了一个事务不会读到另一个并行事务已修改但未提交的数据，避免了“脏读取”，该级别适用于大多数系统。<br>4)@Transactional(isolation = Isolation.READ_UNCOMMITTED)：保证了读取过程中不会读取到非法数据。</p>
+<p>1：Dirty reads–读脏数据。也就是说，比如事务A的未提交（还依然缓存）的数据被事务B读走，如果事务A失败回滚，会导致事务B所读取的的数据是错误的。<br>2：non-repeatable reads–不可重复读。比如事务A中两处读取数据-total-的值。在第一读的时候，total是100，然后事务B就把total的数据改成200，事务A再读一次，结果就发现，total竟然就变成200了，造成事务A数据混乱。<br>3：phantom reads–幻象读数据。这个和non-repeatable reads相似，也是同一个事务中多次读不一致的问题。但是non-repeatable reads的不一致是因为他所要取的数据集被改变了（比如total的数据），但是phantom reads所要读的数据的不一致却不是他所要读的数据集改变，而是他的条件数据集改变。比如Select account.id where account.name=”grace”,第一次读去了6个符合条件的id，第二次读取的时候，由于事务b把一个帐号的名字由”dd”改成”grace”，结果取出来了7个数据。</p>
+<p>不可重复读的重点是修改：同样的条件, 你读取过的数据, 再次读取出来发现值不一样了。</p>
+<p>幻读的重点在于新增或者删除：同样的条件, 第1次和第2次读出来的记录数不一样。</p>
+<p>而事务的隔离级别会导致读取到非法数据的情况如下表示：</p>
+<table>
+    <tr>
+        <td>杂耍的</td>
+        <td>Dirty reads</td>
+        <td>non-repeatable reads</td>
+        <td>phantom reads</td>
+    </tr>
+    <tr>
+        <td>SERIALIZABLE</td>
+        <td>不会</td>
+        <td>不会</td>
+        <td>不会</td>
+    </tr>
+    <tr>
+        <td>REPEATABLE_READ</td>
+        <td>不会</td>
+        <td>不会</td>
+        <td>会</td>
+    </tr>
+    <tr>
+        <td>READ_COMMITTED</td>
+        <td>不会</td>
+        <td>会</td>
+        <td>会</td>
+    </tr>
+    <tr>
+        <td>READ_UNCOMMITTED</td>
+        <td>会</td>
+        <td>会</td>
+        <td>会</td>
+    </tr>
+<table>
+
+<h2 id="常用数据库默认事务隔离级别"><a href="#常用数据库默认事务隔离级别" class="headerlink" title="常用数据库默认事务隔离级别"></a>常用数据库默认事务隔离级别</h2><p>MySQL：默认为REPEATABLE_READ</p>
+<p>SQLSERVER：默认为READ_COMMITTED</p>
+<p>Oracle：默认为READ_COMMITTED</p>
+<h1 id="Transactional注解中常用参数说明"><a href="#Transactional注解中常用参数说明" class="headerlink" title="@Transactional注解中常用参数说明"></a>@Transactional注解中常用参数说明</h1><table>
+    <tr>
+        <td>参 数 名 称</td>
+        <td>功 能 描 述</td>
+    </tr>
+    <tr>
+        <td>readOnly</td>
+        <td>该属性用于设置当前事务是否为只读事务，设置为true表示只读，false则表示可读写，
+        默认值为false。例如：@Transactional(readOnly=true)</td>
+    </tr>
+    <tr>
+        <td>rollbackFor</td>
+        <td>该属性用于设置需要进行回滚的异常类数组，当方法中抛出指定异常数组中的异常时，则进行事务回滚。例如：
+            指定单一异常类：@Transactional(rollbackFor=RuntimeException.class)
+            指定多个异常类：@Transactional(rollbackFor={RuntimeException.class, Exception.class})
+        </td>
+    </tr>
+    <tr>
+        <td>rollbackForClassName</td><td>
+        </td><td>该属性用于设置需要进行回滚的异常类名称数组，当方法中抛出指定异常名称数组中的异常时，则进行事务回滚。例如：
+            指定单一异常类名称：@Transactional(rollbackForClassName="RuntimeException")
+            指定多个异常类名称：@Transactional(rollbackForClassName={"RuntimeException","Exception"})
+        </td><td>
+    </td></tr><tr>
+    </tr><tr>
+        <td>noRollbackFor</td><td>
+        </td><td>该属性用于设置不需要进行回滚的异常类数组，当方法中抛出指定异常数组中的异常时，不进行事务回滚。例如：
+            指定单一异常类：@Transactional(noRollbackFor=RuntimeException.class)
+            指定多个异常类：@Transactional(noRollbackFor={RuntimeException.class, Exception.class})
+        </td><td>
+    </td></tr><tr>
+    </tr><tr>
+        <td>noRollbackForClassName</td><td>
+        </td><td>该属性用于设置不需要进行回滚的异常类名称数组，当方法中抛出指定异常名称数组中的异常时，不进行事务回滚。例如：
+            指定单一异常类名称：@Transactional(noRollbackForClassName="RuntimeException")
+            指定多个异常类名称：
+            @Transactional(noRollbackForClassName={"RuntimeException","Exception"})
+        </td><td>
+    </td></tr><tr>
+    </tr><tr>
+        <td>propagation</td><td>
+        </td><td>该属性用于设置事务的传播行为，具体取值可参考表6-7。
+            例如：@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
+        </td><td>
+    </td></tr><tr>
+    </tr><tr>
+        <td>isolation</td><td>
+        </td><td>该属性用于设置底层数据库的事务隔离级别，事务隔离级别用于处理多事务并发的情况，通常使用数据库的默认隔离级别即可，基本不需要进行设置</td><td>
+    </td></tr><tr>
+    </tr><tr>
+        <td>timeout</td><td>
+        </td><td>该属性用于设置事务的超时秒数，默认值为-1表示永不超时</td><td>
+    </td></tr><tr>
+<table>
+
+<p>#配置时注意事项</p>
+<p>注意的几点:<br>1)@Transactional只能被应用到public方法上,对于其它非public的方法,如果标记了@Transactional也不会报错,但方法没有事务功能.</p>
+<p>2)用spring事务管理器,由spring来负责数据库的打开,提交,回滚。默认遇到运行期例外(throw new RuntimeException(“注释”);)会回滚，即遇到不受检查（unchecked）的例外时回滚；而遇到需要捕获的例外(throw new Exception(“注释”);)不会回滚,即遇到受检查的例外（就是非运行时抛出的异常，编译器会检查到的异常叫受检查例外或说受检查异常）时，需我们指定方式来让事务回滚 要想所有异常都回滚,要加上 @Transactional( rollbackFor={Exception.class,其它异常})。如果让unchecked例外不回滚： @Transactional(notRollbackFor=RunTimeException.class)<br>如下:<br>    @Transactional(rollbackFor=Exception.class) //指定回滚,遇到异常Exception时回滚<br>        public void methodName() {<br>        throw new Exception(“注释”);<br>    }<br>    @Transactional(noRollbackFor=Exception.class)//指定不回滚,遇到运行期例外(throw new RuntimeException(“注释”);)会回滚<br>        public ItimDaoImpl getItemDaoImpl() {<br>        throw new RuntimeException(“注释”);<br>    }</p>
+<p>3)@Transactional注解应该只被应用到public可见度的方法上。如果你在 protected、private或者package-visible的方法上使用@Transactional注解它也不会报错， 但是这个被注解的方法将不会展示已配置的事务设置。</p>
+<p>4)@Transactional注解可以被应用于接口定义和接口方法、类定义和类的public方法上。然而，请注意仅仅@Transactional注解的出现不足于开启事务行为，它仅仅 是一种元数据，能够被可以识别@Transactional注解和上述的配置适当的具有事务行为的beans所使用。上面的例子中，其实正是 <a href="tx:annotation-driven/" target="_blank" rel="noopener">tx:annotation-driven/</a>元素的出现 开启 了事务行为。</p>
+<p>5)Spring团队的建议是你在具体的类（或类的方法）上使用@Transactional注解，而不要使用在类所要实现的任何接口上。你当然可以在接口上使用 @Transactional 注解，但是这将只能当你设置了基于接口的代理时它才生效。因为注解是不能继承的，这就意味着如果你正在使用基于类的代理时，那么事务的设置将不能被基于类的代理所识别，而且对象也将不会被事务代理所包装（将被确认为严重的）。因此，请接受Spring团队的建议并且在具体的类上使用 @Transactional 注解。</p>
+</table></tr></table></table></table>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E9%9D%A2%E8%AF%95%E8%B5%84%E6%96%99/" rel="tag"># 面试资料</a>
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+            <a href="/tags/Spring%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%80%A7%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag"># Spring事物传播性与隔离级别</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/11/%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86/" rel="next" title="网络知识">
+                <i class="fa fa-chevron-left"></i> 网络知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573981259&di=38dbfe469f40a9e4ea2262e53a44ca25&imgtype=jpg&er=1&src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-1771ea61932f5f76ad35e04ff3e230bf_hd.jpg"
+                alt="逗豆" />
+            
+              <p class="site-author-name" itemprop="name">逗豆</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring事务配置"><span class="nav-number">1.</span> <span class="nav-text">Spring事务配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在Spring配置文件引入tx"><span class="nav-number">1.0.1.</span> <span class="nav-text">在Spring配置文件引入tx:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置基于注解的声明式事务管理，如果没有使用Hibernate框架，则将class替换为成”org-springframework-jdbc-datasource-DataSourceTransactionManager”"><span class="nav-number">1.0.2.</span> <span class="nav-text">配置基于注解的声明式事务管理，如果没有使用Hibernate框架，则将class替换为成”org.springframework.jdbc.datasource.DataSourceTransactionManager”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在要使用事务管理的类或者方法上增加代码-Transactional，Spring官方团队建议不要在接口使用。在类上使用-Transactional，类中的所有public方法都将使用事务"><span class="nav-number">1.0.3.</span> <span class="nav-text">在要使用事务管理的类或者方法上增加代码@Transactional，Spring官方团队建议不要在接口使用。在类上使用@Transactional，类中的所有public方法都将使用事务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用tx标签配置的拦截器"><span class="nav-number">1.1.</span> <span class="nav-text">使用tx标签配置的拦截器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-配置sessionFactory"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.配置sessionFactory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-配置事务管理器"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.配置事务管理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-配置事务的传播性"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.配置事务的传播性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-配置参与事务的类"><span class="nav-number">1.1.4.</span> <span class="nav-text">4.配置参与事务的类</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事务的传播性"><span class="nav-number">2.</span> <span class="nav-text">事务的传播性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事务的隔离级别"><span class="nav-number">3.</span> <span class="nav-text">事务的隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用数据库默认事务隔离级别"><span class="nav-number">3.1.</span> <span class="nav-text">常用数据库默认事务隔离级别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Transactional注解中常用参数说明"><span class="nav-number">4.</span> <span class="nav-text">@Transactional注解中常用参数说明</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">逗豆</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">11.6k</span>
+  
+</div>
+
+<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

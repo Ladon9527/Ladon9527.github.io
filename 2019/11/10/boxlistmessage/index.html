@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="欢迎来到,逗豆的博客。">
 <meta property="og:description" content="面试资料">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-11T07:15:12.805Z">
+<meta property="og:updated_time" content="2019-11-11T10:53:16.341Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -359,7 +359,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.1k
+                  3.1k
                 </span>
               
 
@@ -375,7 +375,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  8
+                  11
                 </span>
               
             </div>
@@ -404,7 +404,66 @@
 <h1 id="框架基础"><a href="#框架基础" class="headerlink" title="框架基础"></a>框架基础</h1><h2 id="java的servlit的生命周期"><a href="#java的servlit的生命周期" class="headerlink" title="java的servlit的生命周期"></a>java的servlit的生命周期</h2><pre><code>1.加载和实例化
   2.初始化
   3.请求处理
-  4.服务终止</code></pre><h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><h2 id="spring框架中常用的注解"><a href="#spring框架中常用的注解" class="headerlink" title="spring框架中常用的注解"></a>spring框架中常用的注解</h2><h2 id="Spring系列之依赖注入的三种方式"><a href="#Spring系列之依赖注入的三种方式" class="headerlink" title="Spring系列之依赖注入的三种方式"></a>Spring系列之依赖注入的三种方式</h2><pre><code>1.使用属性的setXXX方法注入</code></pre><p>　　2.构造函数注入<br>    3. 基于注解的注入<br>        @Autowired注解是byType类型的-根据类型注入<br>        @Qualifier注解使用byName进行装配-根据名字进行注入</p>
+  4.服务终止</code></pre><h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><h2 id="spring框架中常用的注解"><a href="#spring框架中常用的注解" class="headerlink" title="spring框架中常用的注解"></a>spring框架中常用的注解</h2><p>1, 声明bean的注解<br>    @Service 在业务逻辑层使用（service层）<br>    @Repository 在数据访问层使用（dao层）<br>    @Controller 在展现层使用，控制器的声明（C）</p>
+<p>2, 注入bean的注解  @Autowired：由Spring提供<br>3, java配置类相关注解<br>    @Configuration 声明当前类为配置类，相当于xml形式的Spring配置（类上）<br>    @Bean 注解在方法上，声明当前方法的返回值为一个bean，替代xml中的方式（方法上）<br>    @Configuration 声明当前类为配置类，其中内部组合了@Component注解，表明这个类是一个bean（类上）<br>    @ComponentScan 用于对Component进行扫描，相当于xml中的（类上）<br>    @WishlyConfiguration 为@Configuration与@ComponentScan的组合注解，可以替代这两个注解</p>
+<p>4,    切面（AOP）相关注解<br>    @Aspect 声明一个切面（类上）使用@After、@Before、@Around定义建言（advice），可直接将拦截规则（切点）作为参数。<br>    @After 在方法执行之后执行（方法上）<br>    @Before 在方法执行之前执行（方法上）<br>    @Around 在方法执行之前与之后执行（方法上）<br>    @PointCut 声明切点<br>    在java配置类中使用@EnableAspectJAutoProxy注解开启Spring对AspectJ代理的支持（类上）</p>
+<p>5,@Bean的属性支持<br>    @Scope 设置Spring容器如何新建Bean实例（方法上，得有@Bean）</p>
+<pre><code>其设置类型包括：
+    Singleton （单例,一个Spring容器中只有一个bean实例，默认模式）,
+    Protetype （每次调用新建一个bean）,
+    Request （web项目中，给每个http request新建一个bean）,
+    Session （web项目中，给每个http session新建一个bean）,
+    GlobalSession（给每一个 global http session新建一个Bean实例）
+@StepScope 在Spring Batch中还有涉及
+@PostConstruct 由JSR-250提供，在构造函数执行完之后执行，等价于xml配置文件中bean的initMethod
+@PreDestory 由JSR-250提供，在Bean销毁之前执行，等价于xml配置文件中bean的destroyMethod</code></pre><p>6,@Value注解<br>    //注入普通字符串<br>    @Value(“Michael Jackson”)<br>    String name;</p>
+<pre><code>//注入操作系统属性
+@Value(&quot;#{systemProperties[&apos;os.name&apos;]}&quot;)
+String osName;
+
+//注入表达式结果
+@Value(&quot;#{ T(java.lang.Math).random() * 100 }&quot;)
+String rNum;
+
+//注入其他bean属性
+@Value(&quot;#{domClass.name}&quot;)
+String name;
+
+//注入文件资源
+@Value(&quot;classpath:com/hgs/hello/test.txt&quot;)
+Resource file
+
+//注入网站资源
+@Value(&quot;http://www.baidu.com&quot;)
+Resource url;
+
+//注入配置文件
+@Value(&quot;${bo.name}&quot;)
+String boName</code></pre><p>7,测试相关注解<br>@RunWith 运行器，Spring中通常用于对JUnit的支持<br>    @RunWith(SpringJunit4ClassRunner.class)<br>@ContextConfiguration 用来加载配置ApplicationContext，其中classes属性用来加载配置类<br>    @ContextConfiguration(classes={TestCofig.class})</p>
+<p>8, SpringMVC部分</p>
+<pre><code>@EnableWebMvc 在配置类中开启Web MVC的配置支持，如一些ViewResolver或者MessageConverter等，若无此句，重写WebMvcConfigurerAdapter方法（用于对SpringMVC的配置）。
+
+@Controller 声明该类为SpringMVC中的Controller
+
+@RequestMapping 用于映射Web请求，包括访问路径和参数（类或方法上）
+
+@ResponseBody 支持将返回值放在response内，而不是一个页面，通常用户返回json数据（返回值旁或方法上）
+
+@RequestBody 允许request的参数在request体中，而不是在直接连接在地址后面。（放在参数前）
+
+@PathVariable 用于接收路径参数，比如@RequestMapping(“/hello/{name}”)申明的路径，将注解放在参数中前，即可获取该值，通常作为Restful的接口实现方法。
+
+@RestController 该注解为一个组合注解，相当于@Controller和@ResponseBody的组合，注解在类上，意味着，该Controller的所有方法都默认加上了@ResponseBody。
+
+@ControllerAdvice 通过该注解，我们可以将对于控制器的全局配置放置在同一个位置，注解了@Controller的类的方法可使用@ExceptionHandler、@InitBinder、@ModelAttribute注解到方法上，
+这对所有注解了 @RequestMapping的控制器内的方法有效。
+
+@ExceptionHandler 用于全局处理控制器里的异常
+
+@InitBinder 用来设置WebDataBinder，WebDataBinder用来自动绑定前台请求参数到Model中。
+
+@ModelAttribute 本来的作用是绑定键值对到Model里，在@ControllerAdvice中是让全局的@RequestMapping都能获得在此处设置的键值对。</code></pre><p>资料来源：<a href="https://blog.csdn.net/qq_24434671/article/details/89448031" target="_blank" rel="noopener">https://blog.csdn.net/qq_24434671/article/details/89448031</a></p>
+<h2 id="Spring系列之依赖注入的三种方式"><a href="#Spring系列之依赖注入的三种方式" class="headerlink" title="Spring系列之依赖注入的三种方式"></a>Spring系列之依赖注入的三种方式</h2><pre><code>1.使用属性的setXXX方法注入</code></pre><p>　　2.构造函数注入<br>    3. 基于注解的注入<br>        @Autowired注解是byType类型的-根据类型注入<br>        @Qualifier注解使用byName进行装配-根据名字进行注入</p>
 <h2 id="Spring框架中bean的生命周期"><a href="#Spring框架中bean的生命周期" class="headerlink" title="Spring框架中bean的生命周期"></a>Spring框架中bean的生命周期</h2><pre><code>1、Spring Ioc容器找到关于Bean的定义并实例化Bean
 2、Spring Ioc容器对Bean进行依赖注入
 3、如果Bean实现了BeanNameAware接口，则将该Bean的id传给setBeanName方法
@@ -582,7 +641,7 @@ Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate 
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -604,7 +663,7 @@ Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate 
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -672,7 +731,7 @@ Spring 提供方便的API把具体技术的相关异常(比如由JDBC Hibernate 
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">5.1k</span>
+    <span title="Site words total count">11.6k</span>
   
 </div>
 

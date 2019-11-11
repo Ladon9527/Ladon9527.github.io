@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="欢迎来到,逗豆的博客。">
 <meta property="og:description" content="Java中间价">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-11T09:16:01.031Z">
+<meta property="og:updated_time" content="2019-11-11T09:38:50.300Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -359,7 +359,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  616
+                  951
                 </span>
               
 
@@ -375,7 +375,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  3
                 </span>
               
             </div>
@@ -401,7 +401,10 @@
 
       
         <h1 id="中间件概念及其分类"><a href="#中间件概念及其分类" class="headerlink" title="中间件概念及其分类"></a>中间件概念及其分类</h1><h2 id="中间件简介"><a href="#中间件简介" class="headerlink" title="中间件简介"></a>中间件简介</h2><p>说起中间件，很多人首先想到的就是消息中间件，那么除了消息中间件呢？其实我们日常开发中，接触到的中间件太多了，我们来看维基百科上的一段介绍：</p>
-<pre><code>中间件（英语：Middleware），又译中间件、中介层，是提供系统软件和应用软件之间连接的软件，以便于软件各部件之间的沟通。在现代信息技术应用框架如 Web 服务、面向服务的体系结构等项目中应用比较广泛。如数据库、Apache 的 Tomcat ，IBM 公司的 WebSphere ,BEA 公司的 WebLogic 应用服务器，东方通公司的 Tong 系列中间件，以及 Kingdee 公司的等都属于中间件。</code></pre><a id="more"></a>
+<pre><code>中间件（英语：Middleware），又译中间件、中介层，是提供系统软件和应用软件之间连接的软件，
+以便于软件各部件之间的沟通。在现代信息技术应用框架如 Web 服务、面向服务的体系结构等项目
+中应用比较广泛。如数据库、Apache 的 Tomcat ，IBM 公司的 WebSphere ,BEA 公司的 
+WebLogic 应用服务器，东方通公司的 Tong 系列中间件，以及 Kingdee 公司的等都属于中间件。</code></pre><a id="more"></a>
 
 <p>看到这个，你可能会大吃一惊，原来我们不知不觉不知不觉中已经用过这么多中间件了！甚至连 Tomcat 也是一个中间件！<br>中间件，顾名思义，就是连接在两个软件之间的东西，是软件之间的一个粘合剂，一个胶水一样的东西。它位于操作系统和我们的应用程序之间，可以让开发者方便地处理通信、输入和输出，使开发者能够专注于自己的业务逻辑开发。<br>这么一说，好像 Tomcat 确实还有点像中间件！位于我们的操作系统和应用程序之间！</p>
 <h2 id="中间件分类"><a href="#中间件分类" class="headerlink" title="中间件分类"></a>中间件分类</h2><p>中间件有很多，早在 1998 年 IDC 公司就将中间件分成了 6 大类，国内 2005 年之前出版的中间件相关的书上，很多都是按照这 6 大类来分的，分别是：</p>
@@ -411,7 +414,11 @@
 4 消息中间件（MOM）
 5 交易中间件（TPM）
 6 对象中间件</code></pre><p>这里边除了消息中间件和交易中间件大家可能听说过之外，其他的中间件估计都很少听说，这是因为时代在变化，有的中间件慢慢被淘汰了（例如 终端仿真/屏幕转换 中间件），有的则慢慢合并到其他框架中去了（例如 远程过程调用中间件）。</p>
-<h1 id="Java中间件"><a href="#Java中间件" class="headerlink" title="Java中间件"></a>Java中间件</h1><h2 id="MyCat-是一个分布式数据库中间件"><a href="#MyCat-是一个分布式数据库中间件" class="headerlink" title="MyCat 是一个分布式数据库中间件"></a>MyCat 是一个分布式数据库中间件</h2><p>资料来源于网络：<br><a href="https://www.cnblogs.com/lenve/p/11105604.html" target="_blank" rel="noopener">https://www.cnblogs.com/lenve/p/11105604.html</a></p>
+<h1 id="Java中间件"><a href="#Java中间件" class="headerlink" title="Java中间件"></a>Java中间件</h1><h2 id="MyCat-是一个分布式数据库中间件"><a href="#MyCat-是一个分布式数据库中间件" class="headerlink" title="MyCat 是一个分布式数据库中间件"></a>MyCat 是一个分布式数据库中间件</h2><h2 id="中间件应用的基本领域与代表"><a href="#中间件应用的基本领域与代表" class="headerlink" title="中间件应用的基本领域与代表"></a>中间件应用的基本领域与代表</h2><p>java是数据间的中间件，在java web开发中适用的范围主要应该是下面三个领域</p>
+<h3 id="远程过程调用和对象访问中间件"><a href="#远程过程调用和对象访问中间件" class="headerlink" title="远程过程调用和对象访问中间件"></a>远程过程调用和对象访问中间件</h3><p>主要解决分布式环境下应用的互相访问问题，这也是支撑应用服务化功能的基础；<br>例如：RPC：Remote Process Call（远程过程调用中间件） </p>
+<h3 id="消息中间件：解决应用之间的消息传递、解耦、异步的问题"><a href="#消息中间件：解决应用之间的消息传递、解耦、异步的问题" class="headerlink" title="消息中间件：解决应用之间的消息传递、解耦、异步的问题"></a>消息中间件：解决应用之间的消息传递、解耦、异步的问题</h3><p>例如：ActiveMQ 是Apache出品，最流行的，能力强劲的开源消息总线。ActiveMQ 是一个完全支持JMS1.1和J2EE 1.4规范的 JMS Provider实现。</p>
+<h3 id="数据访问中间件"><a href="#数据访问中间件" class="headerlink" title="数据访问中间件"></a>数据访问中间件</h3><p>例如：数据访问中间间就是我们使用数据库指定的数据驱动，例如：ODBC JDBC，以 JDBC 为例，数据库本地维护了一个数据访问中间件，我们在访问数据库的时候，配置的地址其实是直接连接到JDBC这个数据访问中间件，如果我们执行查询数据，或者对数据库的操作都是通过JDBC来连接数据库，然后通过JDBC查询完成数据库以后再返回给我们应用程序。作为中间件，查询过程对于我们是不可知的</p>
+<p>资料来源于网络：<br><a href="https://www.cnblogs.com/lenve/p/11105604.html" target="_blank" rel="noopener">https://www.cnblogs.com/lenve/p/11105604.html</a></p>
 
       
     </div>
@@ -453,6 +460,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/11/Spring%E7%9A%84%E4%BA%8B%E7%89%A9%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E4%BA%8B%E7%89%A9%E7%9A%84%E4%BC%A0%E6%92%AD%E6%80%A7%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="prev" title="Spring的事物配置以及事物的传播性与隔离级别">
+                Spring的事物配置以及事物的传播性与隔离级别 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -533,7 +544,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -555,7 +566,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -588,7 +599,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#中间件概念及其分类"><span class="nav-number">1.</span> <span class="nav-text">中间件概念及其分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件简介"><span class="nav-number">1.1.</span> <span class="nav-text">中间件简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件分类"><span class="nav-number">1.2.</span> <span class="nav-text">中间件分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java中间件"><span class="nav-number">2.</span> <span class="nav-text">Java中间件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyCat-是一个分布式数据库中间件"><span class="nav-number">2.1.</span> <span class="nav-text">MyCat 是一个分布式数据库中间件</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#中间件概念及其分类"><span class="nav-number">1.</span> <span class="nav-text">中间件概念及其分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件简介"><span class="nav-number">1.1.</span> <span class="nav-text">中间件简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件分类"><span class="nav-number">1.2.</span> <span class="nav-text">中间件分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java中间件"><span class="nav-number">2.</span> <span class="nav-text">Java中间件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyCat-是一个分布式数据库中间件"><span class="nav-number">2.1.</span> <span class="nav-text">MyCat 是一个分布式数据库中间件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件应用的基本领域与代表"><span class="nav-number">2.2.</span> <span class="nav-text">中间件应用的基本领域与代表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#远程过程调用和对象访问中间件"><span class="nav-number">2.2.1.</span> <span class="nav-text">远程过程调用和对象访问中间件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息中间件：解决应用之间的消息传递、解耦、异步的问题"><span class="nav-number">2.2.2.</span> <span class="nav-text">消息中间件：解决应用之间的消息传递、解耦、异步的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据访问中间件"><span class="nav-number">2.2.3.</span> <span class="nav-text">数据访问中间件</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -623,7 +634,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">5.1k</span>
+    <span title="Site words total count">11.6k</span>
   
 </div>
 
